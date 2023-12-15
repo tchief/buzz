@@ -1,5 +1,6 @@
 import { Signal } from "@preact/signals";
-import { Game } from "../utils/types.ts";
+import { CellType, Game } from "../utils/types.ts";
+import { isNotACell } from "../utils/utils.ts";
 
 interface TableProps<T = string | number> {
   game: Signal<Game<T>>;
@@ -10,18 +11,19 @@ interface TableProps<T = string | number> {
 export function Table<T>(props: TableProps<T>) {
   // @ts-ignore any
   const preventDefaultWrap = (fn, ...args) => (e) => e.preventDefault() || fn(...args);
-  const getFontSize = (size: number) => size === 3 ? "" : size === 4 ? "puzzle4" : "puzzleX";
+  const getFontSize = (size: number, type: CellType) =>
+    type === "words" ? "puzzleWords" : size === 3 ? "" : size === 4 ? "puzzle4" : "puzzleX";
   const getCellOpacity = (status: Game["status"], i: number, j: number) =>
-    status && (i % 2 != 0 || j % 2 != 0) ? "opacity-0" : "";
+    status && isNotACell(i, j) ? "opacity-0" : "";
 
   return (
     <div>
-      <table className={`puzzle ${getFontSize(props.game.value.size)}`}>
+      <table className={`puzzle ${getFontSize(props.game.value.size, props.game.value.type)}`}>
         {props.game.value.field.map((row, i) => (
           <tr>
             {row.map((cell, j) => (
               <td
-                className={`w-1/5`} // TODO: make grid with *?
+                className={`${isNotACell(i, j) ? "w-[4vmin]" : "w-1/3"}`} // TODO: make grid with *?
                 onClick={preventDefaultWrap(props.increment, i, j)}
                 onContextMenu={preventDefaultWrap(props.decrement, i, j)}
               >

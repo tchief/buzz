@@ -60,6 +60,15 @@ body {
     font-size: 7vmin;
 }
 
+.puzzleWords {
+    font-size: 7vmin;
+    width: 90vw;
+
+    @media all and (orientation: portrait) {
+        table-layout: auto;
+    }
+}
+
 .rotate {
     transform: rotate(90deg);
 }

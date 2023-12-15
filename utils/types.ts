@@ -1,4 +1,4 @@
-export type CellType = "numbers" | "letters";
+export type CellType = "numbers" | "letters" | "words";
 export interface Game<T = string | number> {
   field: T[][];
   mask: string;

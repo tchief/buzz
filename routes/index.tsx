@@ -11,12 +11,12 @@ export const handler: Handlers<Game> = {
     // const max = 16;
     // const size = 4;
 
-    const key = "9,8,7,6,5,4,3,2,1";
-    const mask = "__";
-    const max = 9;
-    const size = 3;
-    const type = "numbers";
-    const alphabet = "123456789".split("").sort();
+    // const key = "9,8,7,6,5,4,3,2,1";
+    // const mask = "__";
+    // const max = 9;
+    // const size = 3;
+    // const type = "numbers";
+    // const alphabet = "123456789".split("").sort();
 
     // const key = "c,h,e,m,i,s,t,r,y";
     // const mask = "__";
@@ -24,6 +24,14 @@ export const handler: Handlers<Game> = {
     // const size = 3;
     // const type = "letters";
     // const alphabet = "chemistry".split("").sort();
+    // console.log({ alphabet });
+
+    const key = "tomorrow,is,a,blank,canvas,paint,it,with,purpose";
+    const mask = "__";
+    const max = "with";
+    const size = 3;
+    const type = "words";
+    const alphabet = key.split(",").sort();
     // console.log({ alphabet });
 
     const game = generate(key, size, max, mask, type, alphabet);

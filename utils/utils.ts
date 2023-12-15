@@ -45,6 +45,8 @@ export const generate = (
   return game;
 };
 
+export const isNotACell = (i: number, j: number) => i % 2 != 0 || j % 2 != 0;
+
 export const ALPHABET_NUMBERS_1_9 = "123456789";
 export const ALPHABET_LETTERS_A_Z = "abcdefghijklmnopqrstuvwxyz";
 export const next = (
