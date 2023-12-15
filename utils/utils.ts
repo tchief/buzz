@@ -41,7 +41,7 @@ export const generate = (
   const a = key.split(",").map((x) => type === "numbers" ? parseInt(x) : x);
   const length = size; //Math.sqrt(a.length);
   const field = fill(chunk(a, length), mask);
-  const game = { field, size, mask, max, status: false, type, alphabet };
+  const game = { field, size, mask, max, status: false, type, alphabet, path: "" };
   return game;
 };
 

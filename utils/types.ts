@@ -7,4 +7,5 @@ export interface Game<T = string | number> {
   size: number;
   type: CellType;
   alphabet?: string[];
+  path: string;
 }
