@@ -1,3 +1,57 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.gradient {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;
+}
+
+.winner {
+    background-image: linear-gradient(-45deg, #85ffbd 0%, #fffb7d 100%);
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+}
+
+.puzzle {
+    table-layout: fixed;
+    touch-action: manipulation;
+    user-select: none;
+    font-size: xxx-large;
+    text-align: center;
+    margin: auto;
+    height: 70vh;
+    width: 80vw;
+    font-size: 13vmin;
+}
+
+.rotate {
+    transform: rotate(90deg);
+}

@@ -1,25 +1,20 @@
 import { useSignal } from "@preact/signals";
-import Counter from "../islands/Counter.tsx";
+import { Handlers, PageProps } from "$fresh/server.ts";
+import Puzzle from "../islands/Puzzle.tsx";
+import { Game } from "../utils/types.ts";
+import { generate } from "../utils/utils.ts";
 
-export default function Home() {
-  const count = useSignal(3);
-  return (
-    <div class="px-4 py-8 mx-auto bg-[#86efac]">
-      <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
-        <img
-          class="my-6"
-          src="/logo.svg"
-          width="128"
-          height="128"
-          alt="the Fresh logo: a sliced lemon dripping with juice"
-        />
-        <h1 class="text-4xl font-bold">Welcome to Fresh</h1>
-        <p class="my-4">
-          Try updating this message in the
-          <code class="mx-2">./routes/index.tsx</code> file, and refresh.
-        </p>
-        <Counter count={count} />
-      </div>
-    </div>
-  );
+export const handler: Handlers<Game> = {
+  async GET(_req, ctx) {
+    const key = "9,8,7,6,5,4,3,2,1";
+    const mask = "__";
+    const max = 9;
+    const game = generate(key, max, mask);
+    return ctx.render(game);
+  },
+};
+
+export default function Home(props: PageProps<Game>) {
+  const game = useSignal(props.data);
+  return <Puzzle game={game} />;
 }
