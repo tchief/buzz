@@ -43,7 +43,7 @@ export default function Puzzle(props: PuzzleProps) {
       <img
         id="gif"
         src=""
-        className={`${props.game.value.status ? "visible" : "collapsed"}`}
+        className={`${props.game.value.status ? "gif" : "collapsed"}`}
         onClick={share}
       />
     </div>

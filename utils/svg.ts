@@ -48,14 +48,14 @@ export const buildGif = async (game: Signal<Game>) => {
         width: width,
         height: height,
       };
-      const toAttr = {
+      const params = {
         duration: 4,
         yoyo: true,
         repeat: 1,
         ease: "power2.easeInOut",
       };
       tl.add(gsap.set(rect, { attr }), 0);
-      tl.add(gsap.fromTo(rect, { attr: { fill: c[0] } }, { attr: { ...toAttr, fill: c[1] } }), 0);
+      tl.add(gsap.fromTo(rect, { attr: { fill: c[0] } }, { ...params, attr: { fill: c[1] } }), 0);
       svg.appendChild(rect);
     }
   }
@@ -67,9 +67,9 @@ export const buildGif = async (game: Signal<Game>) => {
 const process = async (animation: any) => {
   const gifWorker = await fetch("https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.worker.js");
   const gifWorkerBlob = await gifWorker.blob();
-  const svg = document.querySelector("#svg");
-  const gif = document.querySelector("#gif");
-  if (!svg || !gif || !animation || !gifWorkerBlob) return;
+  const $svg = document.querySelector("#svg");
+  const $gif = document.querySelector("#gif");
+  if (!$svg || !$gif || !animation || !gifWorkerBlob) return;
 
   const fps = 25;
   const duration = animation.duration();
@@ -83,7 +83,7 @@ const process = async (animation: any) => {
   function processImage() {
     animation.progress(current++ / frames);
 
-    const xml = new XMLSerializer().serializeToString(svg);
+    const xml = new XMLSerializer().serializeToString($svg);
     const blob = new Blob([xml], { type: "image/svg+xml" });
     const img = new Image();
     images.push(img);
@@ -122,11 +122,11 @@ const process = async (animation: any) => {
     });
 
     gif.on("progress", function (p) {
-      if (p % 10 === 0) console.log(Math.round(p * 100) + "%");
+      // console.log(Math.round(p * 100) + "%");
     });
 
     gif.on("finished", function (blob) {
-      gif.src = URL.createObjectURL(blob);
+      $gif.src = URL.createObjectURL(blob);
       animation.progress(1).pause();
     });
 
