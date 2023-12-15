@@ -29,11 +29,11 @@ export const fill = <T>(items: T[][], masked?: string) => {
   return pairs;
 };
 
-export const generate = (key: string, max: string | number, mask: string) => {
+export const generate = (key: string, size: number, max: string | number, mask: string) => {
   const a = key.split(",").map((x) => parseInt(x));
   const length = Math.sqrt(a.length);
   const field = fill(chunk(a, length), mask);
-  const game = { field, mask, max, status: false };
+  const game = { field, size, mask, max, status: false };
   return game;
 };
 

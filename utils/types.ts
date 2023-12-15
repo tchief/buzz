@@ -3,4 +3,5 @@ export interface Game<T = string | number> {
   mask: string;
   max: T;
   status: boolean;
+  size: number;
 }

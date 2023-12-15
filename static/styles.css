@@ -52,6 +52,14 @@ body {
     font-size: 13vmin;
 }
 
+.puzzle4 {
+    font-size: 9vmin;
+}
+
+.puzzleX {
+    font-size: 7vmin;
+}
+
 .rotate {
     transform: rotate(90deg);
 }

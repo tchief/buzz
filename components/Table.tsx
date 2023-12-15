@@ -10,9 +10,10 @@ interface TableProps<T = string | number> {
 export function Table<T>(props: TableProps<T>) {
   // @ts-ignore any
   const preventDefaultWrap = (fn, ...args) => (e) => e.preventDefault() || fn(...args);
+  const getFontSize = (size: number) => size === 3 ? "" : size === 4 ? "puzzle4" : "puzzleX";
   return (
     <div>
-      <table className="puzzle">
+      <table className={`puzzle ${getFontSize(props.game.value.size)}`}>
         {props.game.value.field.map((row, i) => (
           <tr>
             {row.map((cell, j) => (
