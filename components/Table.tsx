@@ -11,6 +11,9 @@ export function Table<T>(props: TableProps<T>) {
   // @ts-ignore any
   const preventDefaultWrap = (fn, ...args) => (e) => e.preventDefault() || fn(...args);
   const getFontSize = (size: number) => size === 3 ? "" : size === 4 ? "puzzle4" : "puzzleX";
+  const getCellOpacity = (status: Game["status"], i: number, j: number) =>
+    status && (i % 2 != 0 || j % 2 != 0) ? "opacity-0" : "";
+
   return (
     <div>
       <table className={`puzzle ${getFontSize(props.game.value.size)}`}>
@@ -22,7 +25,11 @@ export function Table<T>(props: TableProps<T>) {
                 onClick={preventDefaultWrap(props.increment, i, j)}
                 onContextMenu={preventDefaultWrap(props.decrement, i, j)}
               >
-                <span className={i % 2 != 0 ? "rotate inline-block" : ""}>
+                <span
+                  className={`${i % 2 != 0 ? "rotate inline-block" : ""} ${
+                    getCellOpacity(props.game.value.status, i, j)
+                  }`}
+                >
                   {cell?.toString()}
                 </span>
               </td>

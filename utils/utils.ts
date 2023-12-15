@@ -1,3 +1,5 @@
+import { CellType } from "./types.ts";
+
 export const join = <T>(a: T[], c = " ") => a.flatMap((ai, i) => i > 0 ? [c, ai] : [ai]);
 
 export const shuffle = <T>(a: T[]) => a.sort(() => Math.random() - 0.5);
@@ -9,7 +11,6 @@ export const fill = <T>(items: T[][], masked?: string) => {
   const pairs = [];
   const compare = <T>(a: T, b: T) => a < b ? "<" : a > b ? ">" : "=";
   const mask = (a: T) => masked ?? a;
-  console.log({ items });
   for (let i = 0; i < items.length; i++) {
     const row = [], rowV = [];
     row.push(mask(items[i][0]));
@@ -29,12 +30,47 @@ export const fill = <T>(items: T[][], masked?: string) => {
   return pairs;
 };
 
-export const generate = (key: string, size: number, max: string | number, mask: string) => {
-  const a = key.split(",").map((x) => parseInt(x));
-  const length = Math.sqrt(a.length);
+export const generate = (
+  key: string,
+  size: number,
+  max: string | number,
+  mask: string,
+  type: CellType = "numbers",
+  alphabet?: string[],
+) => {
+  const a = key.split(",").map((x) => type === "numbers" ? parseInt(x) : x);
+  const length = size; //Math.sqrt(a.length);
   const field = fill(chunk(a, length), mask);
-  const game = { field, size, mask, max, status: false };
+  const game = { field, size, mask, max, status: false, type, alphabet };
   return game;
+};
+
+export const ALPHABET_NUMBERS_1_9 = "123456789";
+export const ALPHABET_LETTERS_A_Z = "abcdefghijklmnopqrstuvwxyz";
+export const next = (
+  n: string | number,
+  max: string | number,
+  alphabet?: string[],
+) => {
+  if (!alphabet || alphabet.length === 0 || alphabet.join("") === ALPHABET_NUMBERS_1_9) {
+    return Number.isNaN(+n) ? 1 : +n === +max ? 1 : +n + 1;
+  } else {
+    const i = alphabet.indexOf(n.toString());
+    return i === -1 ? alphabet[0] : i === alphabet.length - 1 ? alphabet[0] : alphabet[i + 1];
+  }
+};
+
+export const prev = (
+  n: string | number,
+  max: string | number,
+  alphabet?: string[],
+) => {
+  if (!alphabet || alphabet.length === 0 || alphabet.join("") === ALPHABET_NUMBERS_1_9) {
+    return Number.isNaN(+n) ? +max : +n === 1 ? +max : +n - 1;
+  } else {
+    const i = alphabet.indexOf(n.toString());
+    return i === -1 ? alphabet[0] : i === 0 ? alphabet[alphabet.length - 1] : alphabet[i - 1];
+  }
 };
 
 export const check = <T extends string | number>(items: T[][], mask = "__") => {

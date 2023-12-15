@@ -15,8 +15,18 @@ export const handler: Handlers<Game> = {
     const mask = "__";
     const max = 9;
     const size = 3;
+    const type = "numbers";
+    const alphabet = "123456789".split("").sort();
 
-    const game = generate(key, size, max, mask);
+    // const key = "c,h,e,m,i,s,t,r,y";
+    // const mask = "__";
+    // const max = "z";
+    // const size = 3;
+    // const type = "letters";
+    // const alphabet = "chemistry".split("").sort();
+    // console.log({ alphabet });
+
+    const game = generate(key, size, max, mask, type, alphabet);
     return ctx.render(game);
   },
 };
