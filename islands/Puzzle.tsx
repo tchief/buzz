@@ -2,7 +2,7 @@ import { type Signal } from "@preact/signals";
 import { Table } from "../components/Table.tsx";
 import { Game } from "../utils/types.ts";
 import { check, next, prev } from "../utils/utils.ts";
-import { buildGif } from "../utils/svg.ts";
+import { buildGif, share } from "../utils/svg.ts";
 
 interface PuzzleProps {
   game: Signal<Game>;
@@ -17,7 +17,7 @@ export default function Puzzle(props: PuzzleProps) {
     const status = check(field, props.game.value.mask);
     const newPath = `${path}+${i * size + j}`;
     props.game.value = { ...props.game.value, field: [...field], status, path: newPath };
-    if (status) buildGif();
+    if (status) buildGif(props.game);
   };
 
   const decrement = (i: number, j: number) => {
@@ -28,7 +28,7 @@ export default function Puzzle(props: PuzzleProps) {
     const status = check(field, props.game.value.mask);
     const newPath = `${path}-${i * size + j}`;
     props.game.value = { ...props.game.value, field: [...field], status, path: newPath };
-    if (status) buildGif();
+    if (status) buildGif(props.game);
     return false;
   };
 
@@ -39,8 +39,13 @@ export default function Puzzle(props: PuzzleProps) {
         increment={increment}
         decrement={decrement}
       />
-      <svg id="svg" xmlns="http://www.w3.org/2000/svg" className={"collapsed"}></svg>
-      <img id="gif" src="" className={"collapsed"} />
+      <svg id="svg" xmlns="http://www.w3.org/2000/svg" className={"hidden"}></svg>
+      <img
+        id="gif"
+        src=""
+        className={`${props.game.value.status ? "visible" : "collapsed"}`}
+        onClick={share}
+      />
     </div>
   );
 }

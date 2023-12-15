@@ -121,9 +121,9 @@ const process = async (animation: any) => {
       });
     });
 
-    // gif.on("progress", function (p) {
-    //   console.log(Math.round(p * 100) + "%");
-    // });
+    gif.on("progress", function (p) {
+      if (p % 10 === 0) console.log(Math.round(p * 100) + "%");
+    });
 
     gif.on("finished", function (blob) {
       gif.src = URL.createObjectURL(blob);
@@ -134,7 +134,18 @@ const process = async (animation: any) => {
   }
 };
 
-const share = (blob: Blob) => {
+export const share = async () => {
+  const el = document.getElementById("gif");
+  if (!el || !(el as any).src) return;
+
+  const image = await fetch(el.src);
+  const blob = await image.blob();
+  shareBlob(blob);
+};
+
+const shareBlob = (blob: Blob) => {
+  if (!blob) return;
+
   const file = new File([blob], "buzz.gif", { type: "image/gif" });
   if (navigator.canShare && navigator.canShare({ files: [file] })) {
     navigator.share(

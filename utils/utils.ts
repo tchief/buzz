@@ -4,6 +4,12 @@ export const join = <T>(a: T[], c = " ") => a.flatMap((ai, i) => i > 0 ? [c, ai]
 
 export const shuffle = <T>(a: T[]) => a.sort(() => Math.random() - 0.5);
 
+export const create = (side = 3) =>
+  shuffle([...Array(side * side).keys().map((i: number) => i + 1)]).join();
+
+export const getAlphabet = (side = 3) =>
+  [...Array(side * side).keys().map((i: number) => i + 1)].sort();
+
 export const chunk = <T>(a: T[], chunks: number) =>
   [...Array(Math.ceil(a.length / chunks))].map((_) => a.splice(0, chunks));
 
