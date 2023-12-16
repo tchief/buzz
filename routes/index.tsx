@@ -2,7 +2,7 @@ import { useSignal } from "@preact/signals";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import Puzzle from "../islands/Puzzle.tsx";
 import { Game } from "../utils/types.ts";
-import { generate } from "../utils/utils.ts";
+import { generate, sizeToGame } from "../utils/utils.ts";
 import Header from "../islands/Header.tsx";
 import { getCookies } from "$std/http/cookie.ts";
 import { supabase } from "../utils/db.ts";
@@ -40,7 +40,7 @@ export const handler: Handlers<HomeProps> = {
 
     const token = getCookies(req.headers)["access_token"];
     const { user } = supabase ? await supabase.auth.api.getUser(token) : { user: null };
-    if (token) supabase.auth.setAuth(token);
+    if (token && supabase) supabase.auth.setAuth(token);
 
     const key = "tomorrow,is,a,blank,canvas,paint,it,with,purpose";
     const mask = "_";
@@ -58,7 +58,7 @@ export const handler: Handlers<HomeProps> = {
 export default function Home(props: PageProps<HomeProps>) {
   const game = useSignal(props.data.game);
   const user = useSignal(props.data.user);
-  return ( //max-w-screen-xl
+  return (
     <div className={"p-4 mx-auto  min-h-screen"}>
       <Header user={user} game={game} />
       <Puzzle game={game} />
