@@ -19,4 +19,5 @@ export interface Room {
   size?: number;
   type?: CellType;
   mask?: string;
+  user_id?: string;
 }

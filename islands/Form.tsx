@@ -1,4 +1,5 @@
 import { computed, useSignal } from "@preact/signals";
+import { canNotCreateRoom, slugify, stringToWords, wordsToAlphabet } from "../utils/utils.ts";
 
 export default function Form() {
   const phrase = useSignal("");
@@ -6,14 +7,10 @@ export default function Form() {
   const onPhraseInput = (event: any) => phrase.value = event.target.value;
   const onSlugInput = (event: any) => slug.value = event.target.value;
 
-  const words = computed(() => [...(phrase.value.toLowerCase().match(/[\p{L}-]+/ug) ?? [])]);
-  const alphabet = computed(() => [...new Set(words.value)].sort());
-  const error = computed(() =>
-    words.value.length !== alphabet.value.length || words.value.length !== 9 ||
-    slug.value.length < 5
-  );
-
-  const room = computed(() => [...(slug.value.toLowerCase().match(/[\p{L}-]+/ug) ?? [])].join("-"));
+  const room = computed(() => slugify(slug.value));
+  const words = computed(() => stringToWords(phrase.value));
+  const alphabet = computed(() => wordsToAlphabet(words.value));
+  const error = computed(() => canNotCreateRoom(words.value, alphabet.value, slug.value));
 
   return (
     <>
@@ -24,7 +21,7 @@ export default function Form() {
             Share famous quotes, song lyrics, movie titles, or anything else you can think of.
           </p>
           <div class="w-full max-w-screen-md ">
-            <form class="bg-[#23d5ab] shadow-2xl rounded px-8 pt-6 pb-8 mb-4">
+            <form method="post" class="bg-[#23d5ab] shadow-2xl rounded px-8 pt-6 pb-8 mb-4">
               <div class="mb-4">
                 <label class="block text-gray-700 text-md font-bold mb-2" for="slug">
                   Slug
@@ -39,12 +36,12 @@ export default function Form() {
                 />
               </div>
               <div class="mb-6">
-                <label class="block text-gray-700 text-md font-bold mb-2" for="puzzle">
+                <label class="block text-gray-700 text-md font-bold mb-2" for="phrase">
                   Secret phrase
                 </label>
                 <textarea
                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                  id="puzzle"
+                  id="phrase"
                   type="text"
                   rows={5}
                   placeholder="Tomorrow is a blank canvas. Paint it with purpose."
@@ -73,7 +70,7 @@ export default function Form() {
               <div class="flex items-center justify-between">
                 <button
                   class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
-                  type="button"
+                  type="submit"
                   disabled={error.value === true}
                 >
                   Create

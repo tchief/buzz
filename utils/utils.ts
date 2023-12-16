@@ -16,6 +16,13 @@ export const roomToGame = (room: Room | null) => {
   return game;
 };
 
+export const stringToWords = (s?: string) => [...(s?.toLowerCase().match(/[\p{L}-]+/ug) ?? [])];
+export const wordsToAlphabet = (words: string[]) => [...new Set(words)].sort();
+export const slugify = (s?: string) =>
+  [...(s?.toLowerCase()?.match(/[\p{L}-]+/ug) ?? [])].join("-");
+export const canNotCreateRoom = (words: string[], alphabet: string[], slug: string) =>
+  words.length !== alphabet.length || words.length !== 9 || slug.length < 5;
+
 export const join = <T>(a: T[], c = " ") => a.flatMap((ai, i) => i > 0 ? [c, ai] : [ai]);
 
 export const shuffle = <T>(a: T[]) => a.sort(() => Math.random() - 0.5);
