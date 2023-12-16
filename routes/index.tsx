@@ -1,15 +1,13 @@
 import { useSignal } from "@preact/signals";
 import { Handlers, PageProps } from "$fresh/server.ts";
-import Puzzle from "../islands/Puzzle.tsx";
-import { Game } from "../utils/types.ts";
-import { generate, sizeToGame } from "../utils/utils.ts";
+import { Room } from "../utils/types.ts";
 import Header from "../islands/Header.tsx";
 import { getCookies } from "$std/http/cookie.ts";
 import { supabase } from "../utils/db.ts";
 import { User } from "supabase";
 
 interface HomeProps {
-  game: Game;
+  rooms: string[];
   user: User | null;
 }
 
@@ -42,26 +40,54 @@ export const handler: Handlers<HomeProps> = {
     const { user } = supabase ? await supabase.auth.api.getUser(token) : { user: null };
     if (token && supabase) supabase.auth.setAuth(token);
 
-    const key = "tomorrow,is,a,blank,canvas,paint,it,with,purpose";
-    const mask = "_";
-    const max = "with";
-    const size = 3;
-    const type = "words";
-    const alphabet = key.split(",").sort();
-    // console.log({ alphabet });
+    const { data } = await supabase
+      .from<Room>("puzzles")
+      .select("slug")
+      .order("created_at", { ascending: false })
+      .limit(10);
+    const rooms = data?.map((room) => room.slug) ||
+      [
+        "tomorrow",
+        "silence",
+        "adventure",
+        "stillness",
+        "happiness",
+        "legacy",
+        "dreams",
+        "souls-journey",
+      ];
 
-    const game = generate(key, size, max, mask, type, alphabet);
-    return ctx.render({ game, user });
+    const random = ["random/3", "random/4"];
+    const allRooms = [...rooms, ...random];
+    // const key = "tomorrow,is,a,blank,canvas,paint,it,with,purpose";
+    // const mask = "_";
+    // const max = "with";
+    // const size = 3;
+    // const type = "words";
+    // const alphabet = key.split(",").sort();
+    // // console.log({ alphabet });
+
+    // const game = generate(key, size, max, mask, type, alphabet);
+    return ctx.render({ rooms: allRooms, user });
   },
 };
 
 export default function Home(props: PageProps<HomeProps>) {
-  const game = useSignal(props.data.game);
   const user = useSignal(props.data.user);
-  return (
+  const game = useSignal(null);
+
+  return ( //flex-row flex-wrap max-w-2xl
     <div className={"p-4 mx-auto  min-h-screen"}>
       <Header user={user} game={game} />
-      <Puzzle game={game} />
+      <ul class="flex items-center h-[70vh] max-w-2xl m-auto flex-row flex-wrap p-6 text-4xl justify-center gap-8 cursor-pointer">
+        {props.data.rooms.map((slug) => (
+          <li class="px-2 hover:text-[#23d5ab]">
+            <a href={`/${slug}`}>
+              {slug.replaceAll("-", " ").replaceAll("/", "-")}
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

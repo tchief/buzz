@@ -21,4 +21,5 @@ export interface Room {
   type?: CellType;
   mask?: string;
   user_id?: string;
+  created_at?: string;
 }
