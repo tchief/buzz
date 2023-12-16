@@ -15,6 +15,7 @@ export interface Room {
   id: number;
   slug: string;
   key: string;
+  phrase: string;
   alphabet?: string;
   size?: number;
   type?: CellType;

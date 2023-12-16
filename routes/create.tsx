@@ -12,26 +12,29 @@ export const handler: Handlers = {
   async POST(req, ctx) {
     const form = await req.formData();
     const name = form.get("slug")?.toString();
-    const key = form.get("phrase")?.toString();
+    const phrase = form.get("phrase")?.toString();
 
     const slug = slugify(name);
-    const words = stringToWords(key);
+    const words = stringToWords(phrase);
+    const key = words.join();
     const alphabet = wordsToAlphabet(words);
     const roomError = canNotCreateRoom(words, alphabet, slug);
+
+    if (roomError || !supabase) {
+      return ctx.render({ roomError });
+    }
 
     const token = getCookies(req.headers)["access_token"];
     const { user } = supabase ? await supabase.auth.api.getUser(token) : { user: null };
 
-    if (roomError || !user || !supabase) {
-      return ctx.render({ roomError });
+    if (!user) {
+      return ctx.render({ error: "Not Allowed" });
     }
 
     if (token) supabase.auth.setAuth(token);
     const { data, error } = await supabase
       .from<Room>("puzzles")
-      .insert([{ slug, key, alphabet: alphabet.join(), type: "words", user_id: user.id }]);
-
-    console.log({ data, error });
+      .insert([{ slug, key, phrase, alphabet: alphabet.join(), type: "words", user_id: user.id }]);
 
     const headers = new Headers();
     headers.set("location", `/${slug}`);

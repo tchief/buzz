@@ -28,7 +28,7 @@ export default function Form() {
                 </label>
                 <input
                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="slug"
+                  name="slug"
                   type="text"
                   placeholder="harry potter 3"
                   value={slug.value}
@@ -41,7 +41,7 @@ export default function Form() {
                 </label>
                 <textarea
                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                  id="phrase"
+                  name="phrase"
                   type="text"
                   rows={5}
                   placeholder="Tomorrow is a blank canvas. Paint it with purpose."
