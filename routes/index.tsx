@@ -4,9 +4,17 @@ import Puzzle from "../islands/Puzzle.tsx";
 import { Game } from "../utils/types.ts";
 import { generate } from "../utils/utils.ts";
 import Header from "../islands/Header.tsx";
+import { getCookies } from "$std/http/cookie.ts";
+import { supabase } from "../utils/db.ts";
+import { User } from "supabase";
 
-export const handler: Handlers<Game> = {
-  async GET(_req, ctx) {
+interface HomeProps {
+  game: Game;
+  user: User | null;
+}
+
+export const handler: Handlers<HomeProps> = {
+  async GET(req, ctx) {
     // const token = getCookies(req.headers)['access_token'];
     // const { user } = await supabase.auth.api.getUser(token);
     // return ctx.render({ user });
@@ -30,6 +38,10 @@ export const handler: Handlers<Game> = {
     // const alphabet = "chemistry".split("").sort();
     // console.log({ alphabet });
 
+    const token = getCookies(req.headers)["access_token"];
+    const { user } = supabase ? await supabase.auth.api.getUser(token) : { user: null };
+    if (token) supabase.auth.setAuth(token);
+
     const key = "tomorrow,is,a,blank,canvas,paint,it,with,purpose";
     const mask = "_";
     const max = "with";
@@ -39,15 +51,16 @@ export const handler: Handlers<Game> = {
     // console.log({ alphabet });
 
     const game = generate(key, size, max, mask, type, alphabet);
-    return ctx.render(game);
+    return ctx.render({ game, user });
   },
 };
 
-export default function Home(props: PageProps<Game>) {
-  const game = useSignal(props.data);
+export default function Home(props: PageProps<HomeProps>) {
+  const game = useSignal(props.data.game);
+  const user = useSignal(props.data.user);
   return ( //max-w-screen-xl
     <div className={"p-4 mx-auto  min-h-screen"}>
-      <Header user={null} game={game} />
+      <Header user={user} game={game} />
       <Puzzle game={game} />
     </div>
   );

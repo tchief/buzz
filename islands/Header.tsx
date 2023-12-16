@@ -2,8 +2,9 @@ import { Game } from "../utils/types.ts";
 import { computed, Signal } from "@preact/signals";
 import { share } from "../utils/svg.ts";
 import { DEFAULT_MASK } from "../utils/utils.ts";
+import { User } from "supabase";
 
-export default function Header({ user, game }: { user: any; game: Signal<Game> }) {
+export default function Header({ user, game }: { user: Signal<User | null>; game: Signal<Game> }) {
   const label = computed(() =>
     !game.value.status ? undefined : game.value.gif ? "Download gif" : "Generating..."
   );
@@ -43,14 +44,23 @@ export default function Header({ user, game }: { user: any; game: Signal<Game> }
           )}
         </div>
         <div class={`flex items-center justify-center gap-8 gap-y-2  z-20 flex-wrap text-lg`}>
-          {
-            <a
-              href={"/login"}
-              className={`text-gray-600 ${aClass}`}
-            >
-              Login
-            </a>
-          }
+          {user.value && user.value.email
+            ? (
+              <a
+                href={"/create"}
+                className={`text-gray-600 ${aClass}`}
+              >
+                Create
+              </a>
+            )
+            : (
+              <a
+                href={"/api/auth/login"}
+                className={`text-gray-600 ${aClass}`}
+              >
+                Login
+              </a>
+            )}
         </div>
       </div>
     </div>
