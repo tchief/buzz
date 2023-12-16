@@ -6,6 +6,9 @@ import { generate } from "../utils/utils.ts";
 
 export const handler: Handlers<Game> = {
   async GET(_req, ctx) {
+    // const token = getCookies(req.headers)['access_token'];
+    // const { user } = await supabase.auth.api.getUser(token);
+    // return ctx.render({ user });
     // const key = "16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1";
     // const mask = "__";
     // const max = 16;
@@ -27,7 +30,7 @@ export const handler: Handlers<Game> = {
     // console.log({ alphabet });
 
     const key = "tomorrow,is,a,blank,canvas,paint,it,with,purpose";
-    const mask = "__";
+    const mask = "_";
     const max = "with";
     const size = 3;
     const type = "words";

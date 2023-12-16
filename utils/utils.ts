@@ -70,7 +70,7 @@ export const generate = (
 export const sizeToGame = (initialSize?: string) => {
   const size = +(initialSize ?? 3);
   const max = size * size;
-  const mask = "__";
+  const mask = "_";
   const type = "numbers";
   const key = create(size);
   const alphabet = getAlphabet(size);
@@ -106,7 +106,7 @@ export const prev = (
   }
 };
 
-export const check = <T extends string | number>(items: T[][], mask = "__") => {
+export const check = <T extends string | number>(items: T[][], mask = "_") => {
   const all = items.flatMap((s) => s);
   const playing = all.find((i) => i === mask);
   if (playing) return false;
