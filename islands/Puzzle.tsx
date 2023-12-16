@@ -1,8 +1,10 @@
-import { type Signal } from "@preact/signals";
+import { effect, type Signal } from "@preact/signals";
 import { Table } from "../components/Table.tsx";
 import { Game } from "../utils/types.ts";
 import { check, next, prev } from "../utils/utils.ts";
 import { buildGif, share } from "../utils/svg.ts";
+import { useEffect } from "preact/hooks";
+import { IS_BROWSER } from "$fresh/runtime.ts";
 
 interface PuzzleProps {
   game: Signal<Game>;
@@ -17,7 +19,8 @@ export default function Puzzle(props: PuzzleProps) {
     const status = check(field, props.game.value.mask);
     const newPath = `${path}+${i * size + j}`;
     props.game.value = { ...props.game.value, field: [...field], status, path: newPath };
-    if (status) buildGif(props.game);
+    const cb = (src: string) => props.game.value = { ...props.game.value, gif: src };
+    if (status) buildGif(props.game, cb);
   };
 
   const decrement = (i: number, j: number) => {
@@ -28,12 +31,13 @@ export default function Puzzle(props: PuzzleProps) {
     const status = check(field, props.game.value.mask);
     const newPath = `${path}-${i * size + j}`;
     props.game.value = { ...props.game.value, field: [...field], status, path: newPath };
-    if (status) buildGif(props.game);
+    const cb = (src: string) => props.game.value = { ...props.game.value, gif: src };
+    if (status) buildGif(props.game, cb);
     return false;
   };
 
   return (
-    <div className={`box gradient ${props.game.value.status ? "winner" : ""}`}>
+    <div className={`box`}>
       <Table
         game={props.game}
         increment={increment}
@@ -43,7 +47,7 @@ export default function Puzzle(props: PuzzleProps) {
       <img
         id="gif"
         src=""
-        className={`${props.game.value.status ? "gif" : "collapsed"}`}
+        className={`${props.game.value.status && props.game.value.gif ? "gif" : "hidden"}`}
         onClick={share}
       />
     </div>

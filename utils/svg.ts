@@ -2,7 +2,7 @@ import gsap from "gsap";
 import { Game } from "./types.ts";
 import { Signal } from "@preact/signals";
 
-export const buildGif = async (game: Signal<Game>) => {
+export const buildGif = async (game: Signal<Game>, cb: (args: any) => void) => {
   //"+0+0+0+0+0+0+0+0-2-2-2-2-2-2-2+4+6+6+8+8+8-10-10-10-10-10-12-12-12-12-12-12+14+14-14-14-14+14+16+16-16-16-16-16";
   const { size, path } = game.value;
   const columns = game.value.size;
@@ -60,11 +60,11 @@ export const buildGif = async (game: Signal<Game>) => {
     }
   }
   // tl.start();
-  await process(tl);
+  await process(tl, cb);
   return tl;
 };
 
-const process = async (animation: any) => {
+const process = async (animation: any, cb: (args: any) => void) => {
   const gifWorker = await fetch("https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.worker.js");
   const gifWorkerBlob = await gifWorker.blob();
   const $svg = document.querySelector("#svg");
@@ -128,6 +128,7 @@ const process = async (animation: any) => {
     gif.on("finished", function (blob) {
       $gif.src = URL.createObjectURL(blob);
       animation.progress(1).pause();
+      cb($gif.src);
     });
 
     gif.render();

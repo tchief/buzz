@@ -5,6 +5,7 @@ export interface Game<T = string | number> {
   mask: string;
   max: T;
   status: boolean;
+  gif?: string;
   size: number;
   type: CellType;
   alphabet?: string[];

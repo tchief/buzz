@@ -2,12 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    position: relative;
+    min-height: 100%;
+  }
+  
+  body {
+    height: 100%;
+    min-height: 100%;
+    margin: 0;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;
+  }
+/*   
 html,
 body {
     margin: 0;
     padding: 0;
     height: 100%;
-}
+} */
 
 .gradient {
     background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
@@ -47,8 +62,8 @@ body {
     font-size: xxx-large;
     text-align: center;
     margin: auto;
-    height: 70vh;
-    width: 80vw;
+    height: 85vh;
+    width: 90vw;
     font-size: 13vmin;
 }
 
@@ -62,7 +77,7 @@ body {
 
 .puzzleWords {
     font-size: 7vmin;
-    width: 90vw;
+    width: 95vw;
 
     @media all and (orientation: portrait) {
         table-layout: auto;

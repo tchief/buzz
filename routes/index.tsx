@@ -3,6 +3,7 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import Puzzle from "../islands/Puzzle.tsx";
 import { Game } from "../utils/types.ts";
 import { generate } from "../utils/utils.ts";
+import Header from "../islands/Header.tsx";
 
 export const handler: Handlers<Game> = {
   async GET(_req, ctx) {
@@ -44,5 +45,10 @@ export const handler: Handlers<Game> = {
 
 export default function Home(props: PageProps<Game>) {
   const game = useSignal(props.data);
-  return <Puzzle game={game} />;
+  return ( //max-w-screen-xl
+    <div className={"p-4 mx-auto  min-h-screen"}>
+      <Header user={null} game={game} />
+      <Puzzle game={game} />
+    </div>
+  );
 }

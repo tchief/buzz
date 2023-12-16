@@ -9,6 +9,7 @@ import * as $api_joke from "./routes/api/joke.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $random_size_ from "./routes/random/[size].tsx";
+import * as $Header from "./islands/Header.tsx";
 import * as $Puzzle from "./islands/Puzzle.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -23,6 +24,7 @@ const manifest = {
     "./routes/random/[size].tsx": $random_size_,
   },
   islands: {
+    "./islands/Header.tsx": $Header,
     "./islands/Puzzle.tsx": $Puzzle,
   },
   baseUrl: import.meta.url,
