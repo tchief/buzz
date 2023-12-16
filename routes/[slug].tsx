@@ -3,11 +3,13 @@ import { getCookies } from "$std/http/cookie.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import Puzzle from "../islands/Puzzle.tsx";
 import { Game, Room } from "../utils/types.ts";
-import { roomToGame } from "../utils/utils.ts";
+import { roomToGame, sizeToGame } from "../utils/utils.ts";
 import { supabase } from "../utils/db.ts";
 
 export const handler: Handlers<Game> = {
   async GET(req, ctx) {
+    if (!supabase) return ctx.render(sizeToGame("3"));
+
     const token = getCookies(req.headers)["access_token"];
     const { user } = await supabase.auth.api.getUser(token);
     if (token) supabase.auth.setAuth(token);
@@ -20,7 +22,6 @@ export const handler: Handlers<Game> = {
       .single();
     const game = roomToGame(room);
 
-    console.log({ user, room, token, game });
     return ctx.render(game);
   },
 };
