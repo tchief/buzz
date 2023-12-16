@@ -18,7 +18,8 @@ export default function Form() {
         <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
           <h1 class="text-4xl font-bold">Create new buzz</h1>
           <p class="text-xl  block text-gray-700 my-8">
-            Share famous quotes, song lyrics, movie titles, or anything else you can think of.
+            Share famous quotes, thank you notes, greeting cards, song lyrics, movie titles, or
+            anything else you can think of.
           </p>
           <div class="w-full max-w-screen-md ">
             <form method="post" class="bg-[#23d5ab] shadow-2xl rounded px-8 pt-6 pb-8 mb-4">
