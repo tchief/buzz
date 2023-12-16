@@ -1,4 +1,20 @@
-import { CellType } from "./types.ts";
+import { CellType, Room } from "./types.ts";
+
+export const DEFAULT_SIZE = 3;
+export const DEFAULT_MASK = "_";
+export const DEFAULT_TYPE = "numbers";
+export const ALPHABET_NUMBERS_1_9 = "123456789";
+export const ALPHABET_LETTERS_A_Z = "abcdefghijklmnopqrstuvwxyz";
+export const roomToGame = (room: Room | null) => {
+  const size = room?.size ?? DEFAULT_SIZE;
+  const max = size * size;
+  const mask = room?.mask ?? DEFAULT_MASK;
+  const type = room?.type ?? DEFAULT_TYPE;
+  const key = room?.key ?? create(size);
+  const alphabet = room?.alphabet?.split(",")?.sort() ?? getAlphabet(size);
+  const game = generate(key, size, max, mask, type, alphabet);
+  return game;
+};
 
 export const join = <T>(a: T[], c = " ") => a.flatMap((ai, i) => i > 0 ? [c, ai] : [ai]);
 
@@ -51,10 +67,19 @@ export const generate = (
   return game;
 };
 
+export const sizeToGame = (initialSize?: string) => {
+  const size = +(initialSize ?? 3);
+  const max = size * size;
+  const mask = "__";
+  const type = "numbers";
+  const key = create(size);
+  const alphabet = getAlphabet(size);
+  const game = generate(key, size, max, mask, type, alphabet);
+  return game;
+};
+
 export const isNotACell = (i: number, j: number) => i % 2 != 0 || j % 2 != 0;
 
-export const ALPHABET_NUMBERS_1_9 = "123456789";
-export const ALPHABET_LETTERS_A_Z = "abcdefghijklmnopqrstuvwxyz";
 export const next = (
   n: string | number,
   max: string | number,
