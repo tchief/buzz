@@ -22,4 +22,5 @@ export interface Room {
   mask?: string;
   user_id?: string;
   created_at?: string;
+  is_promoted: boolean;
 }

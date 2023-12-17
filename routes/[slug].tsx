@@ -21,8 +21,8 @@ export const handler: Handlers<SlugProps> = {
     if (token) supabase.auth.setAuth(token);
 
     const slug = ctx.params.slug;
-    const { data: room } = await supabase
-      .from<Room>("puzzles")
+    const { data: room, error } = await supabase
+      .from<Room>("rooms")
       .select("*")
       .match({ slug })
       .single();
@@ -36,7 +36,7 @@ export default function Size(props: PageProps<SlugProps>) {
   const game = useSignal(props.data.game);
   const user = useSignal(props.data.user);
   return (
-    <div className={"p-4 mx-auto  min-h-screen"}>
+    <div className={"p-4 mx-auto min-h-screen"}>
       <Header user={user} game={game} />
       <Puzzle game={game} />
     </div>

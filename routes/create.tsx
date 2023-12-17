@@ -34,7 +34,9 @@ export const handler: Handlers = {
     if (token) supabase.auth.setAuth(token);
     const { data, error } = await supabase
       .from<Room>("puzzles")
-      .insert([{ slug, key, phrase, alphabet: alphabet.join(), type: "words", user_id: user.id }]);
+      .insert([{ slug, key, phrase, alphabet: alphabet.join(), type: "words", user_id: user.id }], {
+        returning: "minimal",
+      });
 
     const headers = new Headers();
     headers.set("location", `/${slug}`);

@@ -41,10 +41,11 @@ export const handler: Handlers<HomeProps> = {
     if (token && supabase) supabase.auth.setAuth(token);
 
     const { data } = await supabase
-      .from<Room>("puzzles")
+      .from<Room>("rooms")
       .select("slug")
+      .match({ type: "words", is_promoted: true })
       .order("created_at", { ascending: false })
-      .limit(10);
+      .limit(15);
     const rooms = data?.map((room) => room.slug) ||
       [
         "tomorrow",
