@@ -74,6 +74,9 @@ export const generate = (
   return game;
 };
 
+export const fieldToKey = <T extends string | number>(field: T[][]) =>
+  field.flatMap((s) => s).filter((i) => !["<", ">", " ", ""].includes(i.toString())).join();
+
 export const sizeToGame = (initialSize?: string) => {
   const size = +(initialSize ?? 3);
   const max = size * size;

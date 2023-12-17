@@ -10,7 +10,7 @@ interface TableProps<T = string | number> {
 
 export function Table<T>(props: TableProps<T>) {
   // @ts-ignore any
-  const preventDefaultWrap = (fn, ...args) => (e) => e.preventDefault() || fn(...args);
+  const preventDefaultWrap = (fn, ...args) => async (e) => e.preventDefault() || await fn(...args);
   const getFontSize = (size: number, type: CellType) =>
     type === "words" ? "puzzleWords" : size === 3 ? "" : size === 4 ? "puzzle4" : "puzzleX";
   const getCellOpacity = (status: Game["status"], i: number, j: number) =>

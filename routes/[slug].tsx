@@ -10,6 +10,7 @@ import Header from "../islands/Header.tsx";
 interface SlugProps {
   game: Game;
   user: User | null;
+  slug?: string;
 }
 
 export const handler: Handlers<SlugProps> = {
@@ -22,23 +23,24 @@ export const handler: Handlers<SlugProps> = {
 
     const slug = ctx.params.slug;
     const { data: room, error } = await supabase
-      .from<Room>("rooms")
+      .from<Room>("puzzles")
       .select("*")
       .match({ slug })
       .single();
     const game = roomToGame(room);
 
-    return ctx.render({ game, user });
+    return ctx.render({ game, user, slug });
   },
 };
 
 export default function Size(props: PageProps<SlugProps>) {
   const game = useSignal(props.data.game);
   const user = useSignal(props.data.user);
+  const slug = useSignal(props.data.slug);
   return (
     <div className={"p-4 mx-auto min-h-screen"}>
       <Header user={user} game={game} />
-      <Puzzle game={game} />
+      <Puzzle game={game} slug={slug} />
     </div>
   );
 }
