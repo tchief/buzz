@@ -58,7 +58,7 @@ export const handler: Handlers<HomeProps> = {
         "souls-journey",
       ];
 
-    const random = ["random/3", "random/4"];
+    const random = ["random/3", "random/4", "easy"];
     const allRooms = [...rooms, ...random];
     // const key = "tomorrow,is,a,blank,canvas,paint,it,with,purpose";
     // const mask = "_";

@@ -6,12 +6,12 @@ import { buildGif, share } from "../utils/svg.ts";
 
 interface PuzzleProps {
   game: Signal<Game>;
-  slug: Signal<string | undefined>;
+  slug?: Signal<string | undefined>;
 }
 
 export default function Puzzle(props: PuzzleProps) {
   const checkApi = async <T extends string | number>(field: T[][]) => {
-    if (!props.slug.value || props.slug.value.length === 0) return false;
+    if (!props?.slug?.value || props.slug.value.length === 0) return true;
     const key = fieldToKey(field);
     const response = await fetch(`/api/${props.slug.value}/check?key=${key}`);
     const data = await response.json();

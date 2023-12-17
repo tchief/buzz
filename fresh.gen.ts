@@ -8,6 +8,7 @@ import * as $_app from "./routes/_app.tsx";
 import * as $api_slug_check from "./routes/api/[slug]/check.ts";
 import * as $api_auth_login from "./routes/api/auth/login.tsx";
 import * as $create from "./routes/create.tsx";
+import * as $easy from "./routes/easy.tsx";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $latest from "./routes/latest.tsx";
@@ -26,6 +27,7 @@ const manifest = {
     "./routes/api/[slug]/check.ts": $api_slug_check,
     "./routes/api/auth/login.tsx": $api_auth_login,
     "./routes/create.tsx": $create,
+    "./routes/easy.tsx": $easy,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/latest.tsx": $latest,
