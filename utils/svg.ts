@@ -55,7 +55,7 @@ export const buildGif = async (game: Signal<Game>, cb: (args: any) => void) => {
         ease: "power2.easeInOut",
       };
       tl.add(gsap.set(rect, { attr }), 0);
-      tl.add(gsap.fromTo(rect, { attr: { fill: c[0] } }, { ...params, attr: { fill: c[1] } }), 0);
+      tl.add(gsap.fromTo(rect, { attr: { fill: c[1] } }, { ...params, attr: { fill: c[0] } }), 0);
       svg.appendChild(rect);
     }
   }
