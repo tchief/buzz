@@ -31,7 +31,7 @@ export const create = (side = 3) =>
   shuffle([...Array(side * side).keys().map((i: number) => i + 1)]).join();
 
 export const getAlphabet = (side = 3) =>
-  [...Array(side * side).keys().map((i: number) => i + 1)].sort();
+  [...Array(side * side).keys().map((i: number) => i + 1)].sort((a, b) => a - b);
 
 export const chunk = <T>(a: T[], chunks: number) =>
   [...Array(Math.ceil(a.length / chunks))].map((_) => a.splice(0, chunks));
@@ -98,7 +98,7 @@ export const next = (
   if (!alphabet || alphabet.length === 0 || alphabet.join("") === ALPHABET_NUMBERS_1_9) {
     return Number.isNaN(+n) ? 1 : +n === +max ? 1 : +n + 1;
   } else {
-    const i = alphabet.indexOf(n.toString());
+    const i = alphabet.map((a) => a.toString()).indexOf(n.toString());
     return i === -1 ? alphabet[0] : i === alphabet.length - 1 ? alphabet[0] : alphabet[i + 1];
   }
 };
@@ -111,7 +111,7 @@ export const prev = (
   if (!alphabet || alphabet.length === 0 || alphabet.join("") === ALPHABET_NUMBERS_1_9) {
     return Number.isNaN(+n) ? +max : +n === 1 ? +max : +n - 1;
   } else {
-    const i = alphabet.indexOf(n.toString());
+    const i = alphabet.map((a) => a.toString()).indexOf(n.toString());
     return i === -1 ? alphabet[0] : i === 0 ? alphabet[alphabet.length - 1] : alphabet[i - 1];
   }
 };
@@ -139,6 +139,5 @@ export const check = <T extends string | number>(items: T[][], mask = "_") => {
       if (!condition(items[i - 1][j], items[i][j], items[i + 1][j])) return false;
     }
   }
-
   return true;
 };
