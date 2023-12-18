@@ -1,16 +1,10 @@
-# Fresh project
+# Buzz - [demo](https://x.com/promptspage/status/1736385022708289684?s=20)
+Little game to discover quotes or share your own puzzles-quotes like in the [demo](https://x.com/promptspage/status/1736385022708289684?s=20).
 
-Your new Fresh project is ready to go. You can follow the Fresh "Getting
-Started" guide here: https://fresh.deno.dev/docs/getting-started
+Math nerds could use pure numbers puzzles: for squares [3x3](https://buzz.deno.dev/random/3),  [4x4](https://buzz.deno.dev/random/4) etc.
 
-### Usage
+Produces GIFs to share in social media.
 
-Make sure to install Deno: https://deno.land/manual/getting_started/installation
+Next features to add: custom fonts, colors, melody-puzzle.
 
-Then start the project:
-
-```
-deno task start
-```
-
-This will watch the project directory and restart as necessary.
+Built with Supabase & Deno Fresh.
